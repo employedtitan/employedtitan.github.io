@@ -1,0 +1,32 @@
+
+#featurette-background{
+  background-color: #cccccc;
+  border:2px solid;
+  border-radius: 45px;
+  color: black;
+}
+
+
+#header-adjustment{
+  text-align:center;
+
+}
+
+#jumbo1-bg{
+  background-color: #004877;
+  border-radius: 1px; 
+  border-color: black;
+}
+#color-me-blue{
+  background-color: #004877;
+}
+#text-center{
+	text-align: center;
+}
+
+.headline-image{
+  	margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    
+}

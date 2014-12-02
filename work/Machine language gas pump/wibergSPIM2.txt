@@ -1,0 +1,454 @@
+#---------------------------------------------------
+#compOrg program 2
+#
+#Sven Wiberg
+#
+#Purpose: The purpose of this program 
+#is to have a user select a type of 
+#payment, a type of gas and the amount 
+#of gas you want.  This program demonstrates
+#the programmers ability to use floating points
+#and procedures.
+#
+#Input: The user inputs a letter 's' or 'c' 
+#for payment type, or 'q' to quit. then the 
+#user inputs 'r', 's', or 'p' to select
+#the gas type. Then to end the program, the user 
+#selects the amount of gas they want.
+#
+#Output: the output of this program is what the user 
+#inputed and the total cost of their purchase rounded
+#to the hundredth place.
+# 
+#----------------------------------------------------
+
+	.data
+
+outpay	     .asciiz "The payment type you selected was: "
+outdis	     .asciiz "SmahtPay discount: -$0.10/gallon"
+outpergallon .asciiz "The amount per gallon:$ "
+outgallon    .asciiz "Total gallons: "
+outamount    .asciiz "total price:$ "
+paymenttype: .asciiz "Enter the payment type you would like('s' for SmahtPay, 'c' for credit, or 'q' to quit): "
+gastype:     .asciiz "Enter the gas type you would like('r' for regular, 'p' for plus, or 's' for super): "
+howmuch:     .asciiz "Enter the amount of gas you would like: "
+stop	     .asciiz "The pump has shut down, have a nice day"
+endl	     .asciiz "\n"
+buttressing  .asciiz "*--------------------------------------------------------*"
+cowberland   .asciiz "      Thank you for purchasing at Cowberland Farms!
+regular	     .float   3.619			#float containing the amount per gallon of regular gas
+plus	     .float   3.719			#float containing the amount per gallon of plus gas
+super	     .float   3.839			#float containing the amount per gallon of super gas
+discount     .float   0.10			#float containing the discount per gallon for smahtpay
+rounder	     .float   0.50			#float containing the amount to add to the total to round to the hundredths place
+hundred	     .float   100.00			#float containing the amount to multiply total by to help round to the hundredths place
+#----------------------------------------------------
+
+	.text
+	.globlmain
+
+main:
+	
+	#A jump and link to the first procedure to get all of the user input
+	jal	collect
+	
+	#if q had been entered in the previous procedure
+	li	$t0, 'q'
+	beq	$t0, $s7, end
+	
+	#A jump and link to the second procedure that will calculate the cost
+	jal 	calculation
+
+
+
+	#a space to print out the information
+	
+	li	$v0, 4
+	la	$a0, buttressing
+		syscall
+	
+	#an endline for formatting
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+	li	$v0, 4
+	la	$a0, cowberland
+		syscall
+	
+	li	$v0, 4
+	la	$a0, buttressing
+		syscall
+
+	#two endlines for double the formatting
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+	#printing the payment choice
+	li	$v0, 4
+	la	$a0, outpay
+		syscall
+	
+	
+	li	$v0, 4
+	la	$a0, 0($s7)
+		syscall
+
+
+	#endline for formatting
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+
+	#check to see if smahtpay
+	li	$t0, 'Smahtpay"
+	beq	$s7, $t0, countthedis
+	
+	#point to come back to after smahtpay discount
+boomarang:
+	
+	#printing the amount per gallon
+
+	
+	li	$v0, 4
+	la	$a0, outpergallon
+		syscall
+	
+	
+	mov.s	$f12, $f1
+	
+	
+	li	$v0, 2
+		syscall
+	
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+	#endline for formatting
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+	
+	
+	
+	#printing total gallons
+	
+	li	$v0, 4
+	la	$a0, outgallon
+		syscall
+	
+	mov.s	$f12, $f0
+		
+	li	$v0, 2
+		syscall
+	
+	
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+	#printing total amount
+	
+	li	$v0, 4
+	la	$a0, outamount
+		syscall
+	
+	mov.s	$f12, $f3
+	
+	li	$v0, 2
+		syscall
+	
+	
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+
+
+	#a loop to the top of the program if 'q' or 'Q' has not been entered
+	
+	
+	
+	j	main
+	
+
+
+#adding text to the recipt for smahtpay discount
+countthedis:
+	
+	
+	li	$v0, 4
+	la	$a0, outdis
+		syscall
+	
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+	
+	j	boomarang	
+	
+#The end of the program  
+end:
+	
+	#Print statement telling the user the program is over
+	li	$v0, 4
+	la	$a0, stop
+		syscall
+
+	li	$v0, 10
+		syscall
+
+	
+#-------------------------------------------------------
+
+#Procedure to collect all of the user input data including
+#type of payment, type of gas, and desired amount of gas
+
+	.data
+
+	.text
+
+collect:
+	
+	#Print statement promting the user to input a payment type
+	li	$v0, 4
+	la	$a0, paymenttype
+		syscall
+
+
+	#user input to select payment type(stored in $a0)
+	li	$v0, 8
+		syscall
+
+	#end line for formating
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+
+	#loading both cases of q to cover if the user typed in either
+	li	$t0, 'q'
+	li	$t1, 'Q'
+
+	#a break on equal to store the gas type as quit	
+	
+	beq	$a0, $t0, quit
+	beq	$a0, $t1, quit
+	
+	#loading both cases of s to cover if the user typed either
+	li	$t0, 's'
+	li	$t1, 'S'
+	
+	#a break on equal to store the payment type as Smahtpay
+	beq	$a0, $t0, smahtpay
+	beq	$a0, $t1, smahtpay
+	
+backone:
+	
+	#loading both cases of c to cover if the user typed in either
+	li	$t0, 'c'
+	li	$t1, 'C'
+	
+	#a branch on equal to store the payment type as credit
+	beq	$a0, $t0, credit
+	beq	$a0, $t1, credit
+	
+	
+backtwo:
+
+	#Print statement promting the user to input a gas type
+	li	$v0, 4
+	la	$a0, gastype
+		syscall
+	
+	
+	#user input to select gas type(stored in $a0)
+	li	$v0, 8
+		syscall
+
+	#endl for formating
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+
+	
+	#loading both cases of r to cover if the user typed in any case
+	li	$t0, 'r'
+	li	$t1, 'R'
+	
+	#a branch on equal to store the gas type as regular
+	beq	$a0, $t0, regular
+	beq	$a0, $t1, regular
+
+backthree:
+		
+	#loading both cases of p to cover if the user typed in any case
+	li	$t0, 'p'
+	li	$t1, 'P'
+	
+	#a branch on equal to store the gas type as plus
+	beq	$a0, $t0, plus
+	beq	$a0, $t1, plus
+
+
+
+backfour:
+	
+	#loading both cases of s to cover if the user typed in any case
+	li	$t0, 's'
+	li	$t1, 'S'
+	
+	#a branch on equal to store the gas type as regular
+	beq	$a0, $t0, super
+	beq	$a0, $t1, super
+
+
+
+backfive:
+
+	#Print statement promting the user to input an amount of gas
+	li	$v0, 4
+	la	$a0, howmuch
+		syscall
+	
+	#user input to select amount of gas wanted(stored in $f0)
+	li	$v0, 6
+		syscall
+	
+	#end line for formating
+	li	$v0, 4
+	la	$a0, endl
+		syscall
+
+	#jump to the end of the procedure now that all input has  been taken
+	
+	j 	endprocedureone
+	
+	
+
+
+
+super:
+	
+	#storing super as the gas type and the amount per gallon 
+
+	li	$s6,'super'
+	l.s	$f1, super
+	j	backfive
+
+
+plus:
+	#storing plus as the gas type and the amount per gallon 
+
+	li	$s6, 'plus'
+	l.s	$f1, plus
+	j	backfour
+
+regular:
+	
+	#Storing regular for the gas type and the amount per gallon
+
+	li	$s6, 'regular'
+	l.s	$f1, regular
+	j	backthree
+
+
+credit:
+	
+	#storing credit in $s7 as payment type
+	li	$s7
+	j 	backtwo
+
+
+smahtpay:
+	
+	#storing  Smahtpay in $s7 as the payment type
+	li	$s7, 'SmahtPay'
+	j	backone
+
+	
+	
+	
+quit:
+	
+	#storing q just before the program exits the first procedure
+	li	$s7, 'q'
+
+
+
+#a point to skip the quit storage point if quit was not picked
+endprocedureone:
+
+	#the procedure has completed return to it's spot in main
+	j 	$ra
+
+#---------------------------------------------------------
+#Procedure to calculate the cost of the amount of gas the
+#user of the program wanted
+
+
+	.data
+	
+	.text
+
+calculation:
+	
+	#loading Smahtpay to compare to the type of payment in $s7 to see if a deduction of 10 cents per gallon is necesarry 
+	li	$t0, 'SmahtPay'
+
+	#branch on equal to subtract 10 cents from the amount per gallon if the user selected smahtpay
+	beq 	$s7, $t0, smahtpaycalc
+
+#a jumping back point from smahtpay
+calcit:
+	
+
+
+	#getting the total cost by multiplying the cost per gallon by the total gallons
+	mul.s	$f3, $f1, $f0
+	
+	#formating the total cost to only be to the hundredths place, by multiplying it by 100
+	l.s	$f4, hundred
+	mul.s	$f3, $f4, $f3
+	
+	#then adding 0.5 to round it up if it has 0.5 or above in the tenths place
+	l.s	$f5, rounder
+	add.s	$f3, $f5, $f3
+	
+	#then truncating the number to a word to remove the rest of the decimal places
+	trunc.w.s $f3, $f3
+	
+	#then converting it back to a floating point to be able to place the tenths and the hundredths
+	cvt.s.w $f3, $f3
+	
+	#then dividing it by 100 to get the correct number(ends up in $f12 for ease of printing later)
+	div.s	$f3, $f3, $f4
+	
+	#then a jump to the end of the process
+	j	endproceduretwo
+
+
+
+smahtpaycalc:
+	
+	#loading 0.10 into $f2 to subtract from amount per gallon in $f1
+	l.s	$f2, discount
+	
+	#subtracting 10 cents from the amount per gallon
+	
+	sub.s	$f1, $f1, $f2
+	
+	#jumping back to the rest of the calculation
+	j 	calcit	
+	
+
+endproceduretwo:
+
+	#the procedure has completed return to it's spot in main
+	j 	$ra
