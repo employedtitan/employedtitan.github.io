@@ -1,0 +1,219 @@
+/*
+A Bootstrap 3.1 affix sidebar template
+from http://bootply.com
+
+This CSS code should follow the 'bootstrap.css'
+in your HTML file.
+
+license: MIT
+author: bootply.com
+*/
+
+body {
+  padding-top:0px;
+  background-image: url(img/background2.png);
+  background-position: 0% 40%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.jumbotron {
+    margin-bottom: 0px;
+    background-image: url(img/picthree.jpg);
+    background-position: 0% 30%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#masthead { 
+ min-height:250px;
+}
+
+#masthead h1 {
+ font-size: 30px;
+ line-height: 1;
+ padding-top:20px;
+}
+
+#masthead .well {
+ margin-top:8%;
+}
+
+@media screen and (min-width: 768px) {
+  #masthead h1 {
+    font-size: 50px;
+  }
+}
+
+.navbar-bright {
+ background-color:#111155;
+ color:#fff;
+}
+
+.affix-top,.affix{
+ position: static;
+}
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	margin-top:30px;
+  	width:228px;
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:70px;
+    width:228px;
+  }
+}
+
+#sidebar li.active {
+  border:0 #eee solid;
+  border-right-width:5px;
+}
+
+#maincoloum{
+  background-color: white;
+
+
+}
+
+
+
+#Missiontext{
+  text-align: center;
+  font-size: 24px;
+  font-style: Calibri, verdana;
+  padding-bottom: 300px;
+}
+
+#eventscontainer{
+  padding-bottom: 300px;
+}
+
+#Eventstext{
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  font-style: Calibri, verdana;
+}
+
+#membercontainer{
+  padding-bottom: 300px;
+}
+#memberplace{
+  border-style: outset;
+  border-width: 5px;
+  border-color: black;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin: 1px;
+}
+
+#memberimage{
+  width: 140px; height: 140px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#container{
+  padding-bottom: 300px;
+}
+
+#pastmenu{
+
+}
+
+#wrapper {
+  padding-left: 250px;
+  transition: all 0.4s ease 0s;
+}
+
+#sidebar-wrapper {
+
+  margin-left: -250px;
+  left: 250px;
+  width: 250px;
+  background: transparent;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+
+#linkimage{
+  padding-bottom: 50px;
+}
+
+#linktext{
+  font-weight: bold;
+  font-size: 25px;
+  font-style: Calibri, verdana;
+}
+
+#outgoing{
+
+  box-shadow: 10px 10px 5px #888888;
+}
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  text-shadow: black 0.3em 0.3em 0.3em;
+}
+
+h4{
+  text-align: center;
+  font-weight: bold;
+  font-family: Ariel;
+  font-size: 50px;
+}
+
+h2{
+  padding-top: 50px;
+  text-align: center;
+  font-weight: bold;
+  font-family: Ariel;
+  font-size: 50px;
+  text-shadow: black 0.3em 0.3em 0.3em;
+}
+
+
+
+
+
+@media (max-width:767px) {
+
+    #wrapper {
+      padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+      left: 0;
+    }
+
+    #wrapper.active {
+      position: relative;
+      left: 250px;
+    }
+
+    #wrapper.active #sidebar-wrapper {
+      left: 250px;
+      width: 250px;
+      transition: all 0.4s ease 0s;
+    }
+
+}
